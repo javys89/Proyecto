@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.server.UID;
 
 import javax.swing.JButton;
 
@@ -33,13 +34,17 @@ public class MainPrincipal extends JFrame {
 	private MenuAdmin menuA;
 	private Login log;
 	public JDesktopPane desktopPane;
-
-	private JPanel contentPane;
 	private JMenuItem btnMenuLogin;
 	private JMenuItem btnNuevaReserva;
 	private JMenuItem btnNuevoUsuario;
 	private JMenuItem btnCerrarSes;
 	private JMenuItem btnSalir;
+	private JMenu mnUsuario;
+	private JMenu mnReserva;
+	private JMenu mnElementos;
+	private JMenuItem btnNuevoUsuario_1;
+	private JMenuItem btnListado;
+	NuevoUsuario usuario;
 	
 	/**
 	 * Launch the application.
@@ -65,7 +70,7 @@ public class MainPrincipal extends JFrame {
 	}
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 500);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -101,37 +106,65 @@ public class MainPrincipal extends JFrame {
 			mnMenu.add(separator_2);
 			
 			btnSalir = new JMenuItem("Salir");
-			btnSalir.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-				System.exit(0);
+			
+			mnMenu.add(btnSalir);
+			
+			mnUsuario = new JMenu("Usuario");
+			menuBar.add(mnUsuario);
+			
+			btnNuevoUsuario_1 = new JMenuItem("Usuario");
+			btnNuevoUsuario_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					usuario();
 				}
 			});
-			mnMenu.add(btnSalir);
+			mnUsuario.add(btnNuevoUsuario_1);
+			
+			btnListado = new JMenuItem("Listado");
+			mnUsuario.add(btnListado);
+			
+			mnReserva = new JMenu("Reserva");
+			menuBar.add(mnReserva);
+			
+			mnElementos = new JMenu("Elementos");
+			menuBar.add(mnElementos);
 		
 		desktopPane = new JDesktopPane();
 		getContentPane().add(desktopPane, BorderLayout.NORTH);
 		GroupLayout gl_desktopPane = new GroupLayout(desktopPane);
 		gl_desktopPane.setHorizontalGroup(
 			gl_desktopPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 424, Short.MAX_VALUE)
+				.addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
 		);
 		gl_desktopPane.setVerticalGroup(
 			gl_desktopPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 252, Short.MAX_VALUE)
+				.addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
 		);
+		this.mnElementos.setEnabled(false);
+		this.mnUsuario.setEnabled(false);
+		this.mnReserva.setEnabled(false);
+		this.btnNuevaReserva.setEnabled(false);
+		this.btnNuevoUsuario.setEnabled(false);
+		this.btnCerrarSes.setEnabled(false);
+	
 		desktopPane.setLayout(gl_desktopPane);
-		contentPane = new JPanel();
-		getContentPane().add(contentPane, BorderLayout.SOUTH);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		
 		
 	}
 	
+	protected void usuario() {
+		usuario=new NuevoUsuario();
+		desktopPane.add(usuario);
+		usuario.setVisible(true);
+		// TODO Auto-generated method stub
+		
+	}
+
 	protected void admin() {
 		menuA=new MenuAdmin();
 		desktopPane.add(menuA);
 		menuA.setVisible(true);
+		validacion();
 		
 		// TODO Auto-generated method stub
 		
@@ -141,7 +174,27 @@ public class MainPrincipal extends JFrame {
 		log=new Login(this);
 		desktopPane.add(log);
 		log.setVisible(true);
+							
+	}
+	protected void validacion(){
+		int bandera =log.categoriaUser();
+		switch(bandera){
+		case(1):
+			this.mnElementos.setEnabled(true);
+			this.mnReserva.setEnabled(true);
+			this.mnUsuario.setEnabled(true);
+			this.btnNuevaReserva.setEnabled(true);
+			this.btnNuevoUsuario.setEnabled(true);
+			this.btnCerrarSes.setEnabled(true);
+		break;
+		case(2):
+			this.mnElementos.setEnabled(false);
+			this.mnReserva.setEnabled(true);
+			this.mnUsuario.setEnabled(true);
+			this.btnNuevaReserva.setEnabled(true);
+			this.btnNuevoUsuario.setEnabled(false);
+			this.btnCerrarSes.setEnabled(true);
 		
-			
+		}
 	}
 }

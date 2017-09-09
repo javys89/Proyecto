@@ -10,6 +10,7 @@ public class Personas {
 	private String user;
 	private String contraseña;
 	private Categorias Cat;
+	private boolean habilitado;
 
 	public Personas(){};
 	
@@ -25,6 +26,14 @@ public class Personas {
 		}
 	
 	
+
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
 
 	public int getIdPersona() {
 		return idPersona;

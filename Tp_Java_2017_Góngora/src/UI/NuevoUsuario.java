@@ -9,8 +9,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+
 
 
 
@@ -35,7 +38,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class NuevoUsuario extends JFrame {
+public class NuevoUsuario extends JInternalFrame {
 
 	private JPanel contentPane;
 	private JTextField txtDni;
@@ -50,6 +53,7 @@ public class NuevoUsuario extends JFrame {
 	CtrlCategorias ctrlCat= new CtrlCategorias();
 	CtrlABMCPersona ctrl=new CtrlABMCPersona();
 	private JComboBox cBoxCateg;
+	private JButton btnEliminar;
 	/**
 	 * Launch the application.
 	 */
@@ -70,7 +74,8 @@ public class NuevoUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public NuevoUsuario() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setClosable(true);
+		setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 296, 343);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -98,7 +103,12 @@ public class NuevoUsuario extends JFrame {
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
 		
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButton("Mostrar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mostrar();
+			}
+		});
 		
 		btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
@@ -119,19 +129,26 @@ public class NuevoUsuario extends JFrame {
 				seleccion();
 			}
 		});
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarUser();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblUsuario)
 									.addGap(53)
 									.addComponent(txtUser, 150, 150, 150))
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblDni)
 										.addComponent(lblNombre)
@@ -146,13 +163,13 @@ public class NuevoUsuario extends JFrame {
 										.addComponent(cBoxCateg, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 							.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(89)
+							.addGap(12)
+							.addComponent(btnEliminar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnCancelar)
-							.addGap(18)
-							.addComponent(btnGuardar, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblCategoria)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnGuardar, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+						.addComponent(lblCategoria))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -184,18 +201,34 @@ public class NuevoUsuario extends JFrame {
 						.addComponent(cBoxCateg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(46)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnGuardar)
 						.addComponent(btnCancelar)
-						.addComponent(btnGuardar))
+						.addComponent(btnEliminar))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 		}
+
+	protected void borrarUser() {
+		buscaPersona();
+		ctrl.borrar(pers);
+		// TODO Auto-generated method stub
+		
+	}
 
 	protected void seleccion() {
 	cBoxCateg.addItem("admin");
 	cBoxCateg.repaint();
 		}
 	
+	protected void mostrar(){
+		buscaPersona();
+		txtNombre.setText(pers.getNombre());
+		txtApe.setText(pers.getApellido());
+		cBoxCateg.setSelectedItem(pers.getCat().getNombreCat());;
+	
+		
+	}
 
 	protected void altaUser() {
 		
@@ -218,14 +251,32 @@ public class NuevoUsuario extends JFrame {
 		pers.setDni(txtDni.getText());
 		pers.setNombre(txtNombre.getText());
 		pers.setApellido(txtApe.getText());
-		pers.setCat((Categorias) cBoxCateg.getSelectedItem());
+		pers.setCat(cate());
 		pers.setUser(txtUser.getText());
 		char pass[]=this.txtPasswordField.getPassword();
 		String Cont=new String(pass);
 		pers.setContraseña(Cont);
-		return pers;
+		return pers;}
 		// TODO Auto-generated method stub
 		
+	protected Categorias cate(){
+		switch ((String)cBoxCateg.getSelectedItem()){
+		case("Administrador"):
+			cat.setIdCat(1);
+		break;
+		case("Encargado"):
+			cat.setIdCat(2);
+		break;
+		case("Usuario"):
+			cat.setIdCat(3);
+		break;
+		}
+		return (ctrlCat.getCategoria(cat.getIdCat()));
 	}
 	
+	protected void buscaPersona(){
+	pers=new Personas();
+	pers.setDni(txtDni.getText());
+	pers=ctrl.Mostrar(pers);
+	}
 }

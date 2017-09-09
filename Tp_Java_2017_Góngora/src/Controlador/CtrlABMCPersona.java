@@ -17,10 +17,11 @@ public class CtrlABMCPersona {
 		public void alta(Personas p){
 				dataPer.addPersona(p);
 		}
-		/*public void borrar(persona p){
+		public void borrar(Personas p){
 			 dataPer.deletePersona(p);
 				}
-	*/					
+		
+	
 		public Personas Mostrar(Personas p){
 		
 			return dataPer.getByUser(p);

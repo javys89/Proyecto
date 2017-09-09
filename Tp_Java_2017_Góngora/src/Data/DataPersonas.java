@@ -13,6 +13,7 @@ package Data;
  	String sql;
  	CtrlCategorias ctrCat;
  	
+ 	
  	public Personas getByUser(Personas per){
  		Personas p=null;
  		ResultSet rs=null;
@@ -22,8 +23,9 @@ package Data;
  		c.getNombreCat();
  		try {
  			stmt= FactoryConexion.getInstancia().getConn().prepareStatement(		
- 					"select * from Personas where usuario=?");
+ 					"select * from Personas where usuario=? or dni=?");
  			stmt.setString(1, per.getUser());
+ 			stmt.setString(2, per.getDni());
  			rs = stmt.executeQuery();
  			if(rs!=null && rs.next()){
  				p=new Personas();
@@ -56,18 +58,20 @@ package Data;
  
  
  	public void addPersona(Personas p) {
- 		sql="insert into personas values(?,?,?,?,?,?)";
+ 		sql="insert  into personas(dni,nombre,Apellido,idcat,usuario,contraseña,habilitado) values(?,?,?,?,?,?,?)";
  		PreparedStatement stmt =null;
  		ResultSet keyResultSet=null;
  		try {
- 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(sql);
- 			stmt.setString(3, p.getDni());
- 			stmt.setString(1, p.getNombre());
- 			stmt.setString(2, p.getApellido());
+ 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(sql
+ 					,PreparedStatement.RETURN_GENERATED_KEYS);
+ 			stmt.setString(1, p.getDni());
+ 			stmt.setString(2, p.getNombre());
+ 			stmt.setString(3, p.getApellido());
  			stmt.setInt(4, p.getCat().getIdCat());
  			stmt.setString(5, p.getUser());
  			stmt.setString(6, p.getContraseña());
- 			stmt.execute();
+ 			stmt.setBoolean(7,p.isHabilitado());
+ 			stmt.executeUpdate();
  			keyResultSet=stmt.getGeneratedKeys();
  			if(keyResultSet!=null && keyResultSet.next()){
  			p.setIdPersona(keyResultSet.getInt(1));
@@ -88,8 +92,8 @@ package Data;
  		
  
  
- /*	public void deletePersona(persona p) {
- 		sql="delete from persona where dni=?";
+	public void deletePersona(Personas p) {
+ 		sql="delete from personas where dni=?";
  		PreparedStatement stmt =null;
  		try {
  			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(sql);
@@ -110,7 +114,7 @@ package Data;
  		// TODO Auto-generated method stub
  		
  	}
- */
+ 
  	public ArrayList<Personas> getAll() {
  	
  		ctrCat=new CtrlCategorias();

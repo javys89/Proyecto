@@ -142,7 +142,9 @@ public class Login extends JInternalFrame {
 		return (b);
 				}
 	
-	
+	protected int categoriaUser(){
+		return p.getCat().getIdCat();
+	}
 	
 	protected void buscaPersona(){
 		p=new Personas();
