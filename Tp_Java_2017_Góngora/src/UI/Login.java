@@ -6,6 +6,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Font;
 
@@ -19,6 +20,8 @@ import Entidades.Personas;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.EOFException;
+import java.lang.reflect.Executable;
 
 public class Login extends JInternalFrame {
 	private JTextField txtUser;
@@ -129,6 +132,7 @@ public class Login extends JInternalFrame {
 		String contra =new String(p.getContraseña());
 		char cont[] = this.passwordField.getPassword();
 		String pass=new String (cont);
+		try{
 		if (pass.equals(contra) ){
 			b=true;
 			this.dispose();
@@ -137,10 +141,13 @@ public class Login extends JInternalFrame {
 			main.desktopPane.add(menu);
 			menu.setVisible(true);*/
 			}
-		else 
+		}
+		catch(Exception e){
 		 b=false;
+		 JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
+		}
 		return (b);
-				}
+						}
 	
 	protected int categoriaUser(){
 		return p.getCat().getIdCat();

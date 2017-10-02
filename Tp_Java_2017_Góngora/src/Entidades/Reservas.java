@@ -11,10 +11,24 @@ public class Reservas {
 	private Date fecha;
 	private ArrayList<Elementos> listaElementos;
 	private Personas persona;
+	private String detalle;
 	
 	public Reservas(){}
 
 	
+	
+	public String getDetalle() {
+		return detalle;
+	}
+
+
+
+	public void setDetalle(String detalle) {
+		this.detalle = detalle;
+	}
+
+
+
 	public int getIdReserva() {
 		return idReserva;
 	}

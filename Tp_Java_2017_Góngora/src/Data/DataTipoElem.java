@@ -3,7 +3,10 @@ package Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
+import Entidades.Categorias;
 import Entidades.Personas;
 import Entidades.TiposElementos;
 
@@ -39,5 +42,45 @@ public class DataTipoElem {
  		
  	}	
  		
+	public static ArrayList<TiposElementos> getAll(){
+		
+		Statement stmt=null;
+		ResultSet rs=null;
+		ArrayList<TiposElementos> cats= new ArrayList<TiposElementos>();
+		try {
+			stmt = FactoryConexion.getInstancia()
+					.getConn().createStatement();
+			rs = stmt.executeQuery("select * from tiposElementos");
+			if(rs!=null){
+				while(rs.next()){
+					TiposElementos tipos= new TiposElementos();	//Verificar Nombres en la base de datos
+					tipos.setIdTipoElemento(rs.getInt("idTipos"));
+					tipos.setNombreTipoE(rs.getString("nombreTipoE"));
+					tipos.setDiasAnt(rs.getDate("diasAnt"));
+					tipos.setMaxHs(rs.getTime("maxHs"));
+					tipos.setCantReservas(rs.getInt("cantmaxreservas"));
+										
+					cats.add(tipos);
+				}
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+
+		try {
+			if(rs!=null) rs.close();
+			if(stmt!=null) stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return cats;
+	
+	
+	}
 
 }
