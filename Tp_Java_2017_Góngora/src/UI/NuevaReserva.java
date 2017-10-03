@@ -1,6 +1,8 @@
 package UI;
 
 import java.awt.EventQueue;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.swing.JInternalFrame;
@@ -15,16 +17,21 @@ import javax.swing.JButton;
 import Data.DataCategorias;
 import Data.DataTipoElem;
 import Entidades.Categorias;
+import Entidades.Reservas;
 import Entidades.TiposElementos;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class NuevaReserva extends JInternalFrame {
 	private JTextField txtFecha;
 	private JTextField txtHora;
-	private JTextField textField;
+	private JTextField txtDetalle;
 	private JComboBox comboBoxElementos;
 	private JButton btnBuscar;
 	private JButton btnSalir;
 	private JButton btnGuardar;
+	private Reservas reser;
 
 	/**
 	 * Launch the application.
@@ -69,6 +76,11 @@ public class NuevaReserva extends JInternalFrame {
 		txtHora.setColumns(10);
 		
 		btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				capturaDatos();
+			}
+		});
 		
 		btnSalir = new JButton("Salir");
 		
@@ -80,41 +92,40 @@ public class NuevaReserva extends JInternalFrame {
 		
 		JLabel lblDetalle = new JLabel("Detalle");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtDetalle = new JTextField();
+		txtDetalle.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblTipoElemento)
-									.addComponent(lblFecha)
-									.addComponent(lblHora)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblIdReserva)
-											.addGroup(groupLayout.createSequentialGroup()
-												.addGap(122)
-												.addComponent(lblElementoSeleccion))
-											.addComponent(lblElemento))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(comboBoxElementos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(lblNumeroId)
-											.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(txtHora, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))))
-								.addContainerGap(19, Short.MAX_VALUE))
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addComponent(lblDetalle)
-								.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTipoElemento)
+								.addComponent(lblFecha)
+								.addComponent(lblHora)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblIdReserva)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(lblElemento)
+											.addPreferredGap(ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
+											.addComponent(lblElementoSeleccion)))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(comboBoxElementos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNumeroId)
+										.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtHora, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnBuscar))))
+							.addContainerGap(21, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblDetalle)
+							.addPreferredGap(ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+							.addComponent(txtDetalle, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnSalir)
 							.addGap(18)
 							.addComponent(btnGuardar)
@@ -142,12 +153,12 @@ public class NuevaReserva extends JInternalFrame {
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblElemento)
-						.addComponent(lblElementoSeleccion)
-						.addComponent(btnBuscar))
+						.addComponent(btnBuscar)
+						.addComponent(lblElementoSeleccion))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txtDetalle, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnSalir)
@@ -158,13 +169,22 @@ public class NuevaReserva extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 
 	}
+	protected void capturaDatos() {
+			reser.setDetalle(txtDetalle.getText());
+			reser.setFecha( Date.valueOf(this.txtFecha.getText()));
+			reser.setHora(Time.valueOf(this.txtHora.getText()));}
+			//reser.setListaElementos(listaElementos);
+	
+		
+		
 	public void listaCombo(){ 
 		ArrayList<TiposElementos> listaTipo=DataTipoElem.getAll();
 	for (int i=0;i<listaTipo.size();i++){
 		comboBoxElementos.addItem(listaTipo.get(i).getNombreTipoE());
 		comboBoxElementos.repaint();
-		}
+		
 		
 	}
 	
 }
+	}
