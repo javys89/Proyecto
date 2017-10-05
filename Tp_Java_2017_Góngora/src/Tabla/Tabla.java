@@ -105,11 +105,7 @@ public class Tabla extends JFrame {
 					modelo.addRow(fila);	
 				}
 			}
-			
-						
-			
-			
-			table.updateUI();
+		table.updateUI();
 		}
 		catch (Exception e) {
             // TODO Auto-generated catch block

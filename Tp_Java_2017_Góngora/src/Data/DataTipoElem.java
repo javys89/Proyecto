@@ -21,8 +21,8 @@ public class DataTipoElem {
  					,PreparedStatement.RETURN_GENERATED_KEYS);
  			stmt.setString(1,tipos.getNombreTipoE());
  			stmt.setInt(2, tipos.getCantReservas());
- 			stmt.setTime(3, tipos.getMaxHs());
- 			stmt.setDate(4, tipos.getDiasAnt());
+ 			stmt.setString(3, tipos.getMaxHs());
+ 			stmt.setString(4, tipos.getDiasAnt());
  			stmt.executeUpdate();
  			keyResultSet=stmt.getGeneratedKeys();
  			if(keyResultSet!=null && keyResultSet.next()){
@@ -94,8 +94,8 @@ public class DataTipoElem {
 		 					,PreparedStatement.RETURN_GENERATED_KEYS);
 		 			stmt.setString(1,tipos.getNombreTipoE());
 		 			stmt.setInt(2, tipos.getCantReservas());
-		 			stmt.setTime(3, tipos.getMaxHs());
-		 			stmt.setDate(4, tipos.getDiasAnt());
+		 			stmt.setString(3, tipos.getMaxHs());
+		 			stmt.setString(4, tipos.getDiasAnt());
 		 			stmt.executeUpdate();
 		 			keyResultSet=stmt.getGeneratedKeys();
 		 			if(keyResultSet!=null && keyResultSet.next()){
