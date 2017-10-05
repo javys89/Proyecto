@@ -82,5 +82,68 @@ public class DataTipoElem {
 	
 	
 	}
+	
+	 public TiposElementos getByName (String nombre){
+			
+		 		TiposElementos tipos =new TiposElementos();
+		  		sql="select * from tipoElementos where nombreTipoE=?";
+		 		PreparedStatement stmt =null;
+		 		ResultSet keyResultSet=null;
+		 		try {
+		 			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(sql
+		 					,PreparedStatement.RETURN_GENERATED_KEYS);
+		 			stmt.setString(1,tipos.getNombreTipoE());
+		 			stmt.setInt(2, tipos.getCantReservas());
+		 			stmt.setTime(3, tipos.getMaxHs());
+		 			stmt.setDate(4, tipos.getDiasAnt());
+		 			stmt.executeUpdate();
+		 			keyResultSet=stmt.getGeneratedKeys();
+		 			if(keyResultSet!=null && keyResultSet.next()){
+		 			tipos.setIdTipoElemento(keyResultSet.getInt(1));
+		 			}
+		 		} catch (SQLException e) {
+		 			// TODO Auto-generated catch block
+		 			e.printStackTrace();
+		 		}
+		 		try {
+		 			if(stmt!=null) stmt.close();
+		 			FactoryConexion.getInstancia().releaseConn();
+		 		} catch (SQLException e) {
+		 			
+		 			e.printStackTrace();
+		 		}
+		 		
+		 		return tipos;
+	 }	
+		public TiposElementos getBytipo(int id){
+			ResultSet rs=null;
+			PreparedStatement stmt =null;
+			TiposElementos c=null;
+			try {
+				stmt= FactoryConexion.getInstancia().getConn().prepareStatement(		
+						"select * from TipoElementos where idtipoE=?");
+				stmt.setInt(1, id);
+				rs = stmt.executeQuery();
+				if(rs!=null && rs.next()){
+					c=new TiposElementos();
+					c.setIdTipoElemento(rs.getInt("idTipoE"));
+					c.setNombreTipoE(rs.getString("nombreTipoE"));
+					}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} 
+					return c;
+			
+	}
 
 }

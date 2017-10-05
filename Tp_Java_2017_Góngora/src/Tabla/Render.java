@@ -1,5 +1,7 @@
 package Tabla;
 
-public class Render {
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
-}
+public class Render {
+	
