@@ -7,13 +7,13 @@ public class TiposElementos {
 	
 	private int idTipoElemento;
 	private String nombreTipoE;
-	private Time maxHs;
-	private Date diasAnt;
+	private String maxHs;
+	private String diasAnt;
 	private int cantReservas;
 	
 	public TiposElementos(){};
 	
-	public TiposElementos(int IdTipoElemento,String nombre, Time maxHs,Date diasAnt,int cantReservas){
+	public TiposElementos(int IdTipoElemento,String nombre, String maxHs,String diasAnt,int cantReservas){
 		
 		this.setIdTipoElemento(IdTipoElemento);
 		this.setNombreTipoE(nombre);
@@ -31,6 +31,23 @@ public class TiposElementos {
 	public void setIdTipoElemento(int idTipoElemento) {
 		this.idTipoElemento = idTipoElemento;
 	}
+	
+
+	public String getMaxHs() {
+		return maxHs;
+	}
+
+	public void setMaxHs(String maxHs) {
+		this.maxHs = maxHs;
+	}
+
+	public String getDiasAnt() {
+		return diasAnt;
+	}
+
+	public void setDiasAnt(String diasAnt) {
+		this.diasAnt = diasAnt;
+	}
 
 	public String getNombreTipoE() {
 		return nombreTipoE;
@@ -38,18 +55,7 @@ public class TiposElementos {
 	public void setNombreTipoE(String nombre) {
 		this.nombreTipoE = nombre;
 	}
-	public Time getMaxHs() {
-		return maxHs;
-	}
-	public void setMaxHs(Time maxHs) {
-		this.maxHs = maxHs;
-	}
-	public Date getDiasAnt() {
-		return diasAnt;
-	}
-	public void setDiasAnt(Date diasAnt) {
-		this.diasAnt = diasAnt;
-	}
+	
 	public int getCantReservas() {
 		return cantReservas;
 	}

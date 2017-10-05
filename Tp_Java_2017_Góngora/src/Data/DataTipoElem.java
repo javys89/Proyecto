@@ -56,8 +56,8 @@ public class DataTipoElem {
 					TiposElementos tipos= new TiposElementos();	//Verificar Nombres en la base de datos
 					tipos.setIdTipoElemento(rs.getInt("idTipos"));
 					tipos.setNombreTipoE(rs.getString("nombreTipoE"));
-					tipos.setDiasAnt(rs.getDate("diasAnt"));
-					tipos.setMaxHs(rs.getTime("maxHs"));
+					tipos.setDiasAnt(rs.getString("diasAnt"));
+					tipos.setMaxHs(rs.getString("maxHs"));
 					tipos.setCantReservas(rs.getInt("cantmaxreservas"));
 										
 					cats.add(tipos);
