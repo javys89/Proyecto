@@ -3,6 +3,7 @@ package Tabla;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import Controlador.*;
 import Entidades.Elementos;
@@ -16,6 +17,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import com.mysql.fabric.xmlrpc.base.Array;
 
 public class Tabla extends JFrame {
 
@@ -31,7 +34,7 @@ public class Tabla extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tabla frame = new Tabla(id);
+					Tabla frame = new Tabla();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,7 +46,7 @@ public class Tabla extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Tabla(int id) {
+	public Tabla() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -89,7 +92,23 @@ public class Tabla extends JFrame {
 		
 		try{
 			CtrlElementos ctrl=new CtrlElementos();
-			ctrl.getByTypes(id, modelo);
+			ArrayList<Elementos> listaElementos=ctrl.listado();
+			for (int i=0;i<listaElementos.size();i++){
+				if(id==(listaElementos.get(i).getTipo().getIdTipoElemento()))
+				{
+					Object[] fila =new Object[5];
+					fila[0]= listaElementos.get(i).getNombreElementos();
+					fila[1]= listaElementos.get(i).getTipo().getNombreTipoE();
+					fila[2]= listaElementos.get(i).getTipo().getMaxHs();
+					fila[3]= listaElementos.get(i).getTipo().getDiasAnt();
+					fila[4]= listaElementos.get(i).getTipo().getCantReservas();
+					modelo.addRow(fila);	
+				}
+			}
+			
+						
+			
+			
 			table.updateUI();
 		}
 		catch (Exception e) {
