@@ -27,6 +27,22 @@ public class CtrlABMCPersona {
 			return dataPer.getByUser(p);
 			
 			}
+		public int categoriaUser(Personas p){
+				return p.getCat().getIdCat();
+			}
+			
+		public Personas buscaPersona(String usser){
+			Personas p=new Personas();
+			p.setUser(usser);
+			p=this.Mostrar(p);
+			return p;
+		}
+		public Personas buscaPersonaDni(String dni){
+			Personas p=new Personas();
+			p.setDni(dni);
+			p=this.Mostrar(p);
+			return p;
+		}
 }
 		/*
 		public void update(persona p){

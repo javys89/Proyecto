@@ -34,7 +34,7 @@ public class Login extends JInternalFrame {
     public boolean b;
     MenuAdmin menu;
     MainPrincipal main;
-    
+    private CtrlABMCPersona ctrl= new CtrlABMCPersona();
   
 	public boolean isB() {
 		return b;
@@ -44,7 +44,7 @@ public class Login extends JInternalFrame {
 		this.b = b;
 	}
 
-	private CtrlABMCPersona ctrl= new CtrlABMCPersona();
+	
 	   /**
 	 * Launch the application.
 	 */
@@ -128,13 +128,14 @@ public class Login extends JInternalFrame {
 	// TODO Auto-generated method stub
 	
 	protected boolean validar(){
-		buscaPersona();
+		p=ctrl.buscaPersona(txtUser.getText());
 		String contra =new String(p.getContraseña());
 		char cont[] = this.passwordField.getPassword();
 		String pass=new String (cont);
 		try{
 		if (pass.equals(contra) ){
 			b=true;
+			
 			this.dispose();
 		/*	menu=new MenuAdmin();
 			main.setVisible(true);
@@ -149,14 +150,14 @@ public class Login extends JInternalFrame {
 		return (b);
 						}
 	
-	protected int categoriaUser(){
-		return p.getCat().getIdCat();
-	}
+	protected int Bandera(){
+		return ctrl.categoriaUser(p);
+			}
 	
-	protected void buscaPersona(){
+	/*protected void buscaPersona(){
 		p=new Personas();
 		p.setUser(txtUser.getText());
 		p=ctrl.Mostrar(p);
-	}
+	}*/
 	
 }

@@ -135,6 +135,6 @@ public class NuevoTipoElem extends JInternalFrame {
 		//t.setMaxHs(Time.valueOf(textMaxHoras.getText()));//modificar tipo
 		//t.setDiasAnt(Date.parse(textDiasAnt.getText()));//modificar tipo
 		return t;
-		}
+		 }
 	}
 

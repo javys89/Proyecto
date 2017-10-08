@@ -210,7 +210,7 @@ public class NuevoUsuario extends JInternalFrame {
 		}
 
 	protected void borrarUser() {
-		buscaPersona();
+		pers=ctrl.buscaPersonaDni(txtDni.getText());
 		ctrl.borrar(pers);
 		// TODO Auto-generated method stub
 		
@@ -222,7 +222,7 @@ public class NuevoUsuario extends JInternalFrame {
 		}
 	
 	protected void mostrar(){
-		buscaPersona();
+		pers=ctrl.buscaPersonaDni(txtDni.getText());
 		txtNombre.setText(pers.getNombre());
 		txtApe.setText(pers.getApellido());
 		cBoxCateg.setSelectedItem(pers.getCat().getNombreCat());;
@@ -274,9 +274,9 @@ public class NuevoUsuario extends JInternalFrame {
 		return (ctrlCat.getCategoria(cat.getIdCat()));
 	}
 	
-	protected void buscaPersona(){
+/*	protected void buscaPersona(){
 	pers=new Personas();
 	pers.setDni(txtDni.getText());
 	pers=ctrl.Mostrar(pers);
-	}
+	}*/
 }

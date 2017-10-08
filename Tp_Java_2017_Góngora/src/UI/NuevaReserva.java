@@ -56,7 +56,7 @@ public class NuevaReserva extends JInternalFrame {
 		setBounds(100, 100, 349, 352);
 		
 		comboBoxElementos = new JComboBox();
-		listaCombo();
+		ListaComboTipoElementos();
 		
 		
 		JLabel lblIdReserva = new JLabel("Id Reserva");
@@ -169,6 +169,14 @@ public class NuevaReserva extends JInternalFrame {
 		getContentPane().setLayout(groupLayout);
 
 	}
+	public void ListaComboTipoElementos(){ 
+		ArrayList<Categorias> listaCate=DataCategorias.getAll();
+	for (int i=0;i<listaCate.size();i++){
+		comboBoxElementos.addItem(listaCate.get(i).getNombreCat());
+		comboBoxElementos.repaint();
+		}
+	}
+		
 	protected void capturaDatos() {
 			reser.setDetalle(txtDetalle.getText());
 			reser.setFecha( Date.valueOf(this.txtFecha.getText()));

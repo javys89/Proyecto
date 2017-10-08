@@ -25,6 +25,8 @@ import java.rmi.server.UID;
 
 import javax.swing.JButton;
 
+import Controlador.CtrlABMCPersona;
+
 import com.mysql.jdbc.log.Log;
 
 import javax.swing.JSeparator;
@@ -35,7 +37,7 @@ public class MainPrincipal extends JFrame {
 	private Login log;
 	public JDesktopPane desktopPane;
 	private JMenuItem btnMenuLogin;
-	private JMenuItem btnNuevaReserva;
+	private JMenuItem btnNuevaReservaMenu;
 	private JMenuItem btnNuevoUsuario;
 	private JMenuItem btnCerrarSes;
 	private JMenuItem btnSalir;
@@ -45,6 +47,9 @@ public class MainPrincipal extends JFrame {
 	private JMenuItem btnNuevoUsuario_1;
 	private JMenuItem btnListado;
 	NuevoUsuario usuario;
+	private JMenuItem mntmNuevaReserva;
+	private JMenuItem mntmNuevoElemento;
+	private NuevaReserva nuevaReserva;
 	
 	/**
 	 * Launch the application.
@@ -90,8 +95,13 @@ public class MainPrincipal extends JFrame {
 			JSeparator separator = new JSeparator();
 			mnMenu.add(separator);
 			
-			btnNuevaReserva = new JMenuItem("Nueva Reserva");
-			mnMenu.add(btnNuevaReserva);
+			btnNuevaReservaMenu = new JMenuItem("Nueva Reserva");
+			btnNuevaReservaMenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					NuevaReserva();
+				}
+			});
+			mnMenu.add(btnNuevaReservaMenu);
 			
 			btnNuevoUsuario = new JMenuItem("Nuevo Usuario");
 			mnMenu.add(btnNuevoUsuario);
@@ -141,9 +151,20 @@ public class MainPrincipal extends JFrame {
 				.addGap(0, Short.MAX_VALUE, Short.MAX_VALUE)
 		);
 		this.mnElementos.setEnabled(false);
+		
+		mntmNuevoElemento = new JMenuItem("Nuevo Elemento");
+		mnElementos.add(mntmNuevoElemento);
 		this.mnUsuario.setEnabled(false);
 		this.mnReserva.setEnabled(false);
-		this.btnNuevaReserva.setEnabled(false);
+		
+		mntmNuevaReserva = new JMenuItem("Nueva Reserva");
+		mntmNuevaReserva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				NuevaReserva();
+			}
+		});
+		mnReserva.add(mntmNuevaReserva);
+		this.btnNuevaReservaMenu.setEnabled(false);
 		this.btnNuevoUsuario.setEnabled(false);
 		this.btnCerrarSes.setEnabled(false);
 	
@@ -152,6 +173,15 @@ public class MainPrincipal extends JFrame {
 		
 	}
 	
+	
+	protected void NuevaReserva() {
+	 nuevaReserva = new NuevaReserva();
+	 desktopPane.add(nuevaReserva);
+	 nuevaReserva.setVisible(true);
+		// TODO Auto-generated method stub
+		
+	}
+
 	protected void usuario() {
 		usuario=new NuevoUsuario();
 		desktopPane.add(usuario);
@@ -177,13 +207,13 @@ public class MainPrincipal extends JFrame {
 							
 	}
 	protected void validacion(){
-		int bandera =log.categoriaUser();
+		int bandera=log.Bandera();
 		switch(bandera){
 		case(1):
 			this.mnElementos.setEnabled(true);
 			this.mnReserva.setEnabled(true);
 			this.mnUsuario.setEnabled(true);
-			this.btnNuevaReserva.setEnabled(true);
+			this.btnNuevaReservaMenu.setEnabled(true);
 			this.btnNuevoUsuario.setEnabled(true);
 			this.btnCerrarSes.setEnabled(true);
 		break;
@@ -191,7 +221,7 @@ public class MainPrincipal extends JFrame {
 			this.mnElementos.setEnabled(false);
 			this.mnReserva.setEnabled(true);
 			this.mnUsuario.setEnabled(true);
-			this.btnNuevaReserva.setEnabled(true);
+			this.btnNuevaReservaMenu.setEnabled(true);
 			this.btnNuevoUsuario.setEnabled(false);
 			this.btnCerrarSes.setEnabled(true);
 		
